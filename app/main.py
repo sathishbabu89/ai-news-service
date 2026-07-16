@@ -19,18 +19,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-# Temporary Debug Middleware
-@app.middleware("http")
-async def add_debug_header(request: Request, call_next):
-
-    response = await call_next(request)
-
-    response.headers["X-Debug-App"] = "FastAPI-Reached"
-
-    return response
-
-
 @app.get("/")
 def home():
 
