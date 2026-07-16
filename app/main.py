@@ -12,6 +12,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://askgenai.in",
+        "https://www.askgenai.in",
         "http://localhost:8000",
     ],
     allow_credentials=True,
