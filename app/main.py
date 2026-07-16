@@ -1,13 +1,16 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers.articles import router as article_router
-from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI(
     title="AI News Service",
     version="1.0.0"
 )
 
+
+# CORS Configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -16,8 +19,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# Temporary Debug Middleware
+@app.middleware("http")
+async def add_debug_header(request: Request, call_next):
+
+    response = await call_next(request)
+
+    response.headers["X-Debug-App"] = "FastAPI-Reached"
+
+    return response
+
+
 @app.get("/")
 def home():
+
     return {
         "message": "AI News Service is running."
     }
@@ -28,7 +44,9 @@ app.include_router(
     prefix="/api/v1"
 )
 
+
 if __name__ == "__main__":
+
     import uvicorn
 
     uvicorn.run(
