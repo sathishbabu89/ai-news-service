@@ -3,3 +3,4 @@ uvicorn
 feedparser 
 pydantic 
 requests
+python-dotenv
